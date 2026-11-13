@@ -1,0 +1,11 @@
+node_modules/
+dist/
+dist-worker/
+.wrangler/
+.alchemy/
+.dev.vars*
+.env*
+test-results/
+!.env.example
+*.log
+.DS_Store

@@ -1,0 +1,14 @@
+{
+  "name": "folio-library",
+  "main": "src/server/worker.ts",
+  "compatibility_date": "2026-07-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": "./dist", "binding": "ASSETS", "not_found_handling":"single-page-application", "run_worker_first": ["/api/*", "/opds", "/opds/*", "/mcp", "/.well-known/*", "/users/*", "/syncs/*", "/healthcheck", "/healthz"] },
+  "r2_buckets": [{ "binding": "ARCHIVE", "bucket_name": "folio-originals" }],
+  "d1_databases": [{ "binding": "DB", "database_name": "folio-catalog", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "migrations" }],
+  "vars": { "LOCAL_DEV": "false", "PRIVATE_LIBRARY":"true" },
+  "env": { "local": { "vars": { "LOCAL_DEV": "true", "PRIVATE_LIBRARY":"true", "AUTH_ORIGIN":"http://localhost:8787", "AUTH_SECRET":"local-development-only-not-for-production-000000", "ADMIN_EMAILS":"admin@example.com" },
+    "r2_buckets": [{ "binding": "ARCHIVE", "bucket_name": "folio-originals" }],
+    "d1_databases": [{ "binding": "DB", "database_name": "folio-catalog", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "migrations" }]
+  }}
+}

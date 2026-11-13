@@ -1,0 +1,45 @@
+{
+  "name": "folio-library",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm build && wrangler d1 migrations apply DB --local --env local && wrangler dev --local --env local --ip 0.0.0.0 --port 8787",
+    "build": "vite build && wrangler deploy --dry-run --env=\"\" --outdir dist-worker",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "iac:plan": "alchemy plan --profile folio-library-prod --stage prod",
+    "smoke": "tsx scripts/smoke.ts",
+    "iac:auth": "alchemy profile edit --profile folio-library-prod --add Cloudflare",
+    "iac:deploy": "alchemy deploy --profile folio-library-prod --stage prod"
+  },
+  "dependencies": {
+    "@better-auth/mcp": "^1.7.18",
+    "@better-auth/oauth-provider": "^1.7.18",
+    "@modelcontextprotocol/server": "^2.4.0",
+    "@noble/hashes": "^2.4.0",
+    "better-auth": "^1.7.18",
+    "drizzle-orm": "^0.45.4",
+    "effect": "^4.1.2",
+    "fast-xml-parser": "^5.12.0",
+    "fflate": "^0.8.3",
+    "foldkit": "^0.170.0"
+  },
+  "devDependencies": {
+    "@alchemy.run/cloudflare": "2.0.0-beta.85",
+    "@cloudflare/workers-types": "^5.20261107.1",
+    "@effect/platform-node": "^4.1.2",
+    "@types/node": "^26.6.6",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "alchemy": "2.0.0-beta.85",
+    "miniflare": "^4.20260730.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.6",
+    "wrangler": "^4.158.0"
+  },
+  "packageManager": "pnpm@11.20.0",
+  "engines": {
+    "node": ">=24"
+  }
+}
