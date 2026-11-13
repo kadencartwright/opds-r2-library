@@ -1,8 +1,8 @@
-# Folio
+# opds-library
 
 A self-hosted ebook library for the browser, KOReader, and CrossPoint readers. Store EPUBs and PDFs in Cloudflare R2, browse and download through OPDS, and sync reading progress and annotations across devices.
 
-Folio runs as one Cloudflare Worker with a FoldKit web UI, an Effect backend, a D1 database, and an R2 archive. The library is private by default: browser administrators sign in by email, and readers use separate device credentials.
+opds-library runs as one Cloudflare Worker with a FoldKit web UI, an Effect backend, a D1 database, and an R2 archive. The library is private by default: browser administrators sign in by email, and readers use separate device credentials.
 
 ## Features
 
@@ -73,12 +73,14 @@ Alchemy reads `.env`; the file is ignored by Git. All deployment configuration i
 
 | Variable | Example | Purpose |
 | --- | --- | --- |
-| `FOLIO_EMAIL_ZONE_ID` | Your Cloudflare zone ID | Zone containing the sending subdomain |
-| `FOLIO_AUTH_ORIGIN` | `https://library.example.com` | Exact HTTPS origin, without a trailing slash |
-| `FOLIO_ADMIN_EMAIL` | `you@example.com` | Verified email destination and administrator allowlist |
-| `FOLIO_EMAIL_FROM` | `folio@auth.example.com` | Sender on a dedicated sending subdomain in that zone |
+| `OPDS_EMAIL_ZONE_ID` | Your Cloudflare zone ID | Zone containing the sending subdomain |
+| `OPDS_AUTH_ORIGIN` | `https://library.example.com` | Exact HTTPS origin, without a trailing slash |
+| `OPDS_ADMIN_EMAIL` | `you@example.com` | Verified email destination and administrator allowlist |
+| `OPDS_EMAIL_FROM` | `opds-library@auth.example.com` | Sender on a dedicated sending subdomain in that zone |
 
-The stack provisions a Worker/custom domain, D1 with migrations, an R2 bucket, a stable signing secret, and restricted email resources. It provisions the sender's domain with email previews disabled; use a dedicated subdomain. It does not configure root-domain MX records. Resource names are fixed for a single installation; inspect `alchemy.run.ts` before using an account that already has Folio resources.
+The stack provisions a Worker/custom domain, D1 with migrations, an R2 bucket, a stable signing secret, and restricted email resources. It provisions the sender's domain with email previews disabled; use a dedicated subdomain. It does not configure root-domain MX records. Resource names are fixed for a single installation; inspect `alchemy.run.ts` before using an account that already has opds-library resources.
+
+Existing deployment identifiers are retained for compatibility: the Alchemy stack and state directory are named `Folio`, and Cloudflare resources use the `folio-` prefix. These are infrastructure identifiers, not the application name; changing them on an existing installation can create new storage or orphan deployment state.
 
 The commands select the isolated Alchemy profile `folio-library-prod` and stage `prod`; they do not change your default profile. Keep `.alchemy/` private and back it up securely: `.alchemy/state/Folio/prod` contains ownership state and the generated signing secret. Losing it can prevent safe reconciliation or rotate authentication secrets. Back up D1 and R2 together as well. The zero database UUID in `wrangler.jsonc` is a local placeholder; production is managed by Alchemy.
 

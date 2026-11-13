@@ -10,7 +10,7 @@ const request=HttpServerRequest.HttpServerRequest.pipe(Effect.map(r=>r.source as
 const json=(value:unknown,status=200,type='application/json')=>R.jsonUnsafe(value,{status,headers:{'content-type':type,'cache-control':'no-store','x-content-type-options':'nosniff'}})
 const handle=<A>(fn:(r:Request)=>Effect.Effect<A,import('./core').Failure,Bindings|import('./core').Store>,status=200,type='application/json')=>
  Effect.gen(function*(){const r=yield* request;const value=yield* fn(r).pipe(Effect.provide(StoreLive));const response=value instanceof Response?R.fromWeb(value):json(value,status,type);return r.method==='HEAD'?R.empty({status:response.status,headers:response.headers}):response}).pipe(
- Effect.catchTag('Failure',e=>Effect.succeed(R.setHeader(json({message:e.message,...(e.code?{code:e.code}:{})},e.status),'www-authenticate',e.status===401?'Basic realm="Folio Library", charset="UTF-8"':''))))
+ Effect.catchTag('Failure',e=>Effect.succeed(R.setHeader(json({message:e.message,...(e.code?{code:e.code}:{})},e.status),'www-authenticate',e.status===401?'Basic realm="opds-library", charset="UTF-8"':''))))
 const read=<A>(f:(r:Request)=>Effect.Effect<A,import('./core').Failure,Bindings|import('./core').Store>)=>(r:Request)=>Sync.reader(r).pipe(Effect.andThen(f(r)))
 const id=(r:Request)=>new URL(r.url).pathname.split('/')[3]
 const routes=Layer.mergeAll(

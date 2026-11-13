@@ -79,7 +79,7 @@ export const catalogAtom=(url:URL)=>Effect.gen(function*(){
   (b.cover_type?link('http://opds-spec.org/image',new URL('/api/books/'+b.id+'/cover',url).href,b.cover_type):'')+'</entry>').join('')
  return xmlResponse('<?xml version="1.0" encoding="UTF-8"?>'+
   '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">'+
-  '<id>'+xml(new URL(path,url).href)+'</id><title>Folio Library</title><updated>'+new Date().toISOString()+'</updated><author><name>Folio Library</name></author>'+
+  '<id>'+xml(new URL(path,url).href)+'</id><title>opds-library</title><updated>'+new Date().toISOString()+'</updated><author><name>opds-library</name></author>'+
   link('self',href(result.page))+link('start',new URL(path,url).href)+link('first',href(1))+
   (result.page>1?link('previous',href(result.page-1)):'')+(result.page*result.limit<result.total?link('next',href(result.page+1)):'')+
   link('search',new URL('/opds/v1/search.xml',url).href,'application/opensearchdescription+xml')+
@@ -88,13 +88,13 @@ export const catalogAtom=(url:URL)=>Effect.gen(function*(){
   entries+'</feed>',ATOM_TYPE)
 })
 export const searchAtom=(url:URL)=>Effect.succeed(xmlResponse('<?xml version="1.0" encoding="UTF-8"?>'+
- '<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"><ShortName>Folio Library</ShortName><Description>Search your private ebook library</Description><InputEncoding>UTF-8</InputEncoding>'+
+ '<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"><ShortName>opds-library</ShortName><Description>Search your private ebook library</Description><InputEncoding>UTF-8</InputEncoding>'+
  '<Url type="'+xml(ATOM_TYPE)+'" template="'+xml(new URL('/opds/v1/catalog.xml',url).href+'?q={searchTerms}')+'" /></OpenSearchDescription>','application/opensearchdescription+xml'))
 export const catalog=(url:URL)=>Effect.gen(function*(){
  const result=yield* list(url,true);const path='/opds/v2/catalog.json'
  const href=(page:number)=>catalogPage(url,path,page,result.limit)
  const link=(rel:string,href:string)=>({rel,href,type:'application/opds+json'})
- return {metadata:{title:'Folio Library',numberOfItems:result.total,itemsPerPage:result.limit,currentPage:result.page},
+ return {metadata:{title:'opds-library',numberOfItems:result.total,itemsPerPage:result.limit,currentPage:result.page},
  links:[link('self',href(result.page)),link('start',new URL(path,url).href),link('first',href(1)),
  ...(result.page>1?[link('previous',href(result.page-1))]:[]),...(result.page*result.limit<result.total?[link('next',href(result.page+1))]:[]),
  // Explicit query= is understood by KOReader's basic OPDS 2 URI-template handler.

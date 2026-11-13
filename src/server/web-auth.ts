@@ -31,7 +31,7 @@ export const webAuth=(env:Env)=>{
      await env.DB.prepare('INSERT INTO local_mail(id,recipient,url,created) VALUES (?,?,?,?)').bind(id,email,url,Date.now()).run()
     }else{
      if(!env.EMAIL||!env.EMAIL_FROM)throw new Error('Email delivery is not configured')
-     await env.EMAIL.send({from:env.EMAIL_FROM,to:email,subject:'Sign in to Folio',text:'Sign in to your library (expires in 5 minutes):\n'+url+'\nIf you did not request this, ignore this email.'})
+     await env.EMAIL.send({from:env.EMAIL_FROM,to:email,subject:'Sign in to opds-library',text:'Sign in to your library (expires in 5 minutes):\n'+url+'\nIf you did not request this, ignore this email.'})
     }
    }
   })],

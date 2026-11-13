@@ -10,7 +10,7 @@ import { epub,pdf,coverPNG } from './fixtures'
 import { validateOPDS } from './opds'
 test('real workerd D1 + R2 unified library and KOSync vertical slice',async()=>{
  await mkdir('test-results',{recursive:true})
- const dir=await mkdtemp(tmpdir()+'/folio-test-')
+ const dir=await mkdtemp(tmpdir()+'/opds-library-test-')
  const make=(local=true)=>new Miniflare({modules:true,scriptPath:'dist-worker/worker.js',compatibilityDate:'2026-07-01',compatibilityFlags:['nodejs_compat'],d1Databases:{DB:'catalog'},r2Buckets:{ARCHIVE:'archive'},d1Persist:dir+'/d1',r2Persist:dir+'/r2',bindings:{LOCAL_DEV:String(local),ALLOW_LOCAL_ADMIN:local?'true':'false',PRIVATE_LIBRARY:local?'false':'true',ADMIN_TOKEN:'test-admin',AUTH_SECRET:'test-only-auth-secret-at-least-thirty-two-characters',AUTH_ORIGIN:'http://localhost',ADMIN_EMAILS:'admin@example.com'},port:8790})
  let mf=make()
  const req=(path:string,init?:Parameters<Miniflare["dispatchFetch"]>[1])=>mf.dispatchFetch('http://localhost'+path,init)
@@ -28,7 +28,7 @@ test('real workerd D1 + R2 unified library and KOSync vertical slice',async()=>{
  const up=await upload();assert.equal(up.status,201,await up.clone().text())
  const b=await up.json() as {id:string;title:string;authors:string;object_key:string}
  assert.deepEqual(Buffer.from(await req('/api/books/'+b.id+'/cover').then(r=>r.arrayBuffer())),Buffer.from(coverPNG));
- assert.equal(b.title,'A Tiny Journey');assert.equal(b.authors,'Folio Test Author')
+ assert.equal(b.title,'A Tiny Journey');assert.equal(b.authors,'opds-library Test Author')
  assert.equal(b.id,createHash('sha256').update(bytes).digest('hex'))
  assert.equal((await upload()).status,409)
  const r2=await mf.getR2Bucket('ARCHIVE');assert.ok(await r2.head(b.object_key))

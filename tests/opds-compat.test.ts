@@ -11,7 +11,7 @@ import {epub,pdf,coverPNG} from './fixtures'
 import {validateOPDS} from './opds'
 
 test('private OPDS 1.2/2.0 GET and HEAD, Atom escaping, search, pagination and acquisition',async t=>{
- const origin='http://127.0.0.1:8794',dir=await mkdtemp(tmpdir()+'/folio-opds-')
+ const origin='http://127.0.0.1:8794',dir=await mkdtemp(tmpdir()+'/opds-library-opds-')
  const mf=new Miniflare({modules:true,scriptPath:'dist-worker/worker.js',assets:{directory:'dist',binding:'ASSETS',routerConfig:{has_user_worker:true,static_routing:{user_worker:['/api/*','/opds','/opds/*']}}},port:8794,compatibilityDate:'2026-07-01',compatibilityFlags:['nodejs_compat'],d1Databases:{DB:'opds'},r2Buckets:{ARCHIVE:'opds'},bindings:{LOCAL_DEV:'true',PRIVATE_LIBRARY:'true'}})
  const basic='Basic '+Buffer.from('reader:reader-password-for-test').toString('base64')
  const headers={authorization:basic,accept:'application/opds+json, application/atom+xml;profile=opds-catalog, */*','accept-encoding':'identity'}

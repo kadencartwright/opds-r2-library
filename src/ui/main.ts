@@ -108,13 +108,13 @@ export const view=(m:Model,h:HtmlBuilder<Message>):Document=>{
  const btn=(label:string,msg:Message,variant='',iconName='')=>h.button([h.Type('button'),h.Class(('btn '+variant).trim()),h.OnClick(msg),h.Disabled(m.busy)],[...(iconName?[icon(iconName)]:[]),h.span([],[label])])
  const submit=(label:string,variant='',iconName='')=>h.button([h.Type('submit'),h.Class(('btn '+variant).trim()),h.Disabled(m.busy)],[...(iconName?[icon(iconName)]:[]),h.span([],[label])])
  const field=(id:string,label:string,input:ReturnType<typeof h.input>,hint='')=>h.div([h.Class('field')],[h.label([h.For(id)],[label]),input,...(hint?[h.p([h.Class('hint'),h.Id(id+'-hint')],[hint])]:[])])
- const mark=h.span([h.Class('mark')],[icon('book'),h.span([h.Class('mark-word')],['Folio'])])
+ const mark=h.span([h.Class('mark')],[icon('book'),h.span([h.Class('mark-word')],['opds-library'])])
 
- if(!m.authenticated&&m.busy&&!m.notice&&!m.email&&!m.error)return {title:'Folio',body:h.div([h.Class('gate')],[h.div([h.Class('gate-loading'),h.Role('status')],[mark,h.span([],['Opening the library…'])])])}
+ if(!m.authenticated&&m.busy&&!m.notice&&!m.email&&!m.error)return {title:'opds-library',body:h.div([h.Class('gate')],[h.div([h.Class('gate-loading'),h.Role('status')],[mark,h.span([],['Opening the library…'])])])}
  if(!m.authenticated){
   const oauth=m.oauthMode==='login'||m.oauthMode==='consent'||m.oauthMode==='resume'
   const status=m.busy?'Checking access…':m.notice
-  return {title:'Sign in · Folio',body:h.div([h.Class('gate')],[
+  return {title:'Sign in · opds-library',body:h.div([h.Class('gate')],[
    h.main([h.Class('gate-card')],[
     h.div([h.Class('gate-head')],[mark,h.span([h.Class('pill')],[icon('lock'),'Private'])]),
     h.h1([h.Class('gate-title')],[oauth?'Sign in to authorize access':'Sign in to your library']),
@@ -126,7 +126,7 @@ export const view=(m:Model,h:HtmlBuilder<Message>):Document=>{
     h.p([h.Role('status'),h.AriaLive('polite'),h.Class('gate-status'+(m.error?' is-error':'')+(status?'':' is-empty'))],[status]),
     h.div([h.Class('gate-aside')],[icon('key'),h.p([],[h.strong([],['Using an e-reader? ']),'OPDS catalogs and reading sync use a separate device username and password, not this email. Ask the library owner for reader credentials.'])])
    ]),
-   h.p([h.Class('gate-foot')],['Folio · a private library'])
+   h.p([h.Class('gate-foot')],['opds-library · a private library'])
   ])}
  }
 
@@ -263,9 +263,9 @@ export const view=(m:Model,h:HtmlBuilder<Message>):Document=>{
   ])
  ])
 
- return {title:'Folio · Your library',body:h.div([h.Class('app'+(s||m.confirmation||m.accountDelete?' is-locked':''))],[
+ return {title:'opds-library · Your library',body:h.div([h.Class('app'+(s||m.confirmation||m.accountDelete?' is-locked':''))],[
   h.header([h.Class('topbar')],[
-   h.a([h.Class('brand'),h.Href('/'),h.AriaLabel('Folio home')],[mark]),
+   h.a([h.Class('brand'),h.Href('/'),h.AriaLabel('opds-library home')],[mark]),
    h.nav([h.Class('topnav'),h.AriaLabel('Primary')],[
     h.a([h.Href('#library')],['Library']),
     h.a([h.Href('#desk')],['Readers']),
@@ -274,7 +274,7 @@ export const view=(m:Model,h:HtmlBuilder<Message>):Document=>{
    ])
   ]),
   h.main([h.Class('page')],[...consent,library,desk]),
-  h.footer([h.Class('foot')],[h.span([],['Folio · originals archived in R2 · catalogue & progress in D1']),h.span([],[h.a([h.Href('/opds/v2/catalog.json')],['OPDS 2.0 catalog']),' · ',h.a([h.Href('/opds/v1/catalog.xml')],['KOReader / OPDS 1.2']),' · ',h.a([h.Href('/healthcheck')],['Server health'])])]),
+  h.footer([h.Class('foot')],[h.span([],['opds-library · originals archived in R2 · catalogue & progress in D1']),h.span([],[h.a([h.Href('/opds/v2/catalog.json')],['OPDS 2.0 catalog']),' · ',h.a([h.Href('/opds/v1/catalog.xml')],['KOReader / OPDS 1.2']),' · ',h.a([h.Href('/healthcheck')],['Server health'])])]),
   ...drawer,...confirm,...accountConfirm
  ])}
 }

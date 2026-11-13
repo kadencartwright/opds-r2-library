@@ -45,7 +45,7 @@ end
 B.paths={};B.downloads={};B.page_num=2;local root_opened=false
 B.switchItemTable=function() root_opened=true end
 B.setTitleBarLeftIcon=function() end
-B:onMenuSelect({idx=2,text='folio',url=origin,username='reader',password=B.root_catalog_password})
+B:onMenuSelect({idx=2,text='opds-library',url=origin,username='reader',password=B.root_catalog_password})
 assert(not root_opened and #B.paths==0,'website root reproduces silent catalog tap')
 print(version..': website root HTML reproduces silent tap (no menu, no error dialog)')
 local expected_title='A <Tiny> & "Journey"'
@@ -71,7 +71,7 @@ for _, path in ipairs({'/opds/v2/catalog.json','/opds/v1/catalog.xml','/opds','/
  B.paths={};B.downloads={};B.item_table={};B.page_num=2;local opened=false
  B.switchItemTable=function(_,_,table_) opened=#table_>0 end
  B.setTitleBarLeftIcon=function() end
- B:onMenuSelect({idx=2,text='folio',url=endpoint,username='reader',password=B.root_catalog_password})
+ B:onMenuSelect({idx=2,text='opds-library',url=endpoint,username='reader',password=B.root_catalog_password})
  assert(opened and #B.paths==1,'catalog tap opens a menu')
  B.sync_server={url=endpoint};B.sync_max_dl=10;B.sync_force=true
  local pending=B:getSyncDownloadList()

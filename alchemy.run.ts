@@ -8,13 +8,13 @@ export default Alchemy.Stack('Folio', {
  providers: Layer.merge(Cloudflare.providers(),Alchemy.RandomProvider()),
  state: localState(),
 }, Effect.gen(function*(){
- const zoneId=yield* Config.String('FOLIO_EMAIL_ZONE_ID')
- const origin=yield* Config.String('FOLIO_AUTH_ORIGIN')
- const adminEmail=yield* Config.String('FOLIO_ADMIN_EMAIL')
- const emailFrom=yield* Config.String('FOLIO_EMAIL_FROM')
- if(new URL(origin).protocol!=='https:'||new URL(origin).origin!==origin)throw Error('FOLIO_AUTH_ORIGIN must be an HTTPS origin without a trailing slash or path')
+ const zoneId=yield* Config.String('OPDS_EMAIL_ZONE_ID')
+ const origin=yield* Config.String('OPDS_AUTH_ORIGIN')
+ const adminEmail=yield* Config.String('OPDS_ADMIN_EMAIL')
+ const emailFrom=yield* Config.String('OPDS_EMAIL_FROM')
+ if(new URL(origin).protocol!=='https:'||new URL(origin).origin!==origin)throw Error('OPDS_AUTH_ORIGIN must be an HTTPS origin without a trailing slash or path')
  const sendingDomain=emailFrom.split('@')[1]
- if(!sendingDomain||!adminEmail.includes('@'))throw Error('Configure valid FOLIO_EMAIL_FROM and FOLIO_ADMIN_EMAIL addresses')
+ if(!sendingDomain||!adminEmail.includes('@'))throw Error('Configure valid OPDS_EMAIL_FROM and OPDS_ADMIN_EMAIL addresses')
  const bucket=yield* Cloudflare.R2.Bucket('FolioOriginals',{name:'folio-originals'})
  const db=yield* Cloudflare.D1.Database('FolioCatalog',{name:'folio-catalog',migrations:'./migrations'})
  const secret=yield* Alchemy.makeRandom('WebAuthSecret')

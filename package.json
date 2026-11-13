@@ -1,5 +1,5 @@
 {
-  "name": "folio-library",
+  "name": "opds-library",
   "private": true,
   "type": "module",
   "scripts": {

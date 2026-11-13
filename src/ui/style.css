@@ -1,4 +1,4 @@
-/* Folio — a private reading room. System fonts only; no remote assets. */
+/* opds-library — a private reading room. System fonts only; no remote assets. */
 :root{
  --paper:#f5f1e8;--paper-2:#ede7da;--card:#fffdf8;--ink:#1d1c1a;--ink-2:#4a4740;--muted:#7a7468;
  --rule:#ddd5c4;--rule-2:#cfc6b2;--accent:#7b2d26;--accent-ink:#fff;--accent-soft:#f3e3dc;

@@ -37,10 +37,10 @@ export const serve=(r:Request)=>Effect.gen(function*(){
   const users=await Effect.runPromise(s.all<{email:string;emailVerified:number}>('SELECT email,emailVerified FROM web_user WHERE id=?',claims.sub).pipe(Effect.provideContext(context)))
   if(!users[0]?.emailVerified||!adminEmails(env).includes(users[0].email.toLowerCase()))return Response.json({error:'Forbidden'},{status:403})
   const protocol=createMcpHandler(()=>{
-   const server=new McpServer({name:'folio-library',version:'1.0.0'})
+   const server=new McpServer({name:'opds-library',version:'1.0.0'})
    server.registerTool('upload_book',{
     title:'Upload an ebook to my private library',
-    description:'Archive an attached EPUB or PDF in your private Folio library. Only upload files the user asks to save. Maximum 16 MiB. Original bytes are preserved.',
+    description:'Archive an attached EPUB or PDF in your private opds-library library. Only upload files the user asks to save. Maximum 16 MiB. Original bytes are preserved.',
     inputSchema:toolSchema,
     annotations:{readOnlyHint:false,destructiveHint:false,idempotentHint:true,openWorldHint:true},
     _meta:{'openai/fileParams':['file'],securitySchemes:[{type:'oauth2',scopes:['library:upload']}]},
